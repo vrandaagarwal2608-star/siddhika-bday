@@ -1,0 +1,334 @@
+/* ============================================
+   BHABHI BIRTHDAY — SHARED STYLES
+   Dark Midnight Blue + Gold + Cherry Blossom
+   Pages: index, gallery, wishes, surprise
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Dancing+Script:wght@400;600;700&family=Montserrat:wght@200;300;400&display=swap');
+
+/* ---- CSS VARIABLES ---- */
+:root {
+  --black: #030508;
+  --deep-navy: #070d1a;
+  --midnight: #0a1628;
+  --navy: #0f1f3d;
+  --gold: #c9a84c;
+  --gold-light: #e8c97a;
+  --gold-glow: #f0d080;
+  --pink-soft: #f4b8c8;
+  --pink-light: #ffd6e0;
+  --pink-glow: rgba(244, 184, 200, 0.3);
+  --white-soft: #f8f0e8;
+  --glass: rgba(255,255,255,0.04);
+  --glass-border: rgba(201,168,76,0.2);
+  --font-display: 'Cormorant Garamond', serif;
+  --font-script: 'Dancing Script', cursive;
+  --font-body: 'Montserrat', sans-serif;
+}
+
+/* ---- RESET & BASE ---- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  background: var(--black);
+  color: var(--white-soft);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ---- CUSTOM CURSOR ---- */
+#cursor {
+  position: fixed;
+  width: 12px; height: 12px;
+  background: var(--gold-glow);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%,-50%);
+  transition: transform 0.1s, width 0.3s, height 0.3s, opacity 0.3s;
+  box-shadow: 0 0 15px var(--gold-glow), 0 0 30px rgba(240,208,128,0.5);
+  mix-blend-mode: screen;
+}
+#cursor-ring {
+  position: fixed;
+  width: 36px; height: 36px;
+  border: 1px solid rgba(201,168,76,0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  transform: translate(-50%,-50%);
+  transition: transform 0.15s ease, width 0.3s, height 0.3s;
+}
+
+/* ---- LOADING SCREEN ---- */
+#loading-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--black);
+  z-index: 99990;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  transition: opacity 1.2s ease, visibility 1.2s ease;
+}
+#loading-screen.hidden { opacity: 0; visibility: hidden; }
+
+.loading-petal-ring {
+  position: relative;
+  width: 120px; height: 120px;
+}
+.loading-petal-ring::before {
+  content: '🌸';
+  font-size: 2.5rem;
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  animation: spin 3s linear infinite;
+  filter: drop-shadow(0 0 20px var(--pink-soft));
+}
+@keyframes spin { to { transform: translate(-50%,-50%) rotate(360deg); } }
+
+.loading-text {
+  font-family: var(--font-script);
+  font-size: 1.8rem;
+  color: var(--gold-light);
+  letter-spacing: 4px;
+  animation: pulse-text 1.5s ease-in-out infinite;
+  text-shadow: 0 0 30px rgba(201,168,76,0.6);
+}
+@keyframes pulse-text {
+  0%,100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.loading-bar-wrap {
+  width: 200px; height: 2px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.loading-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), var(--pink-soft));
+  border-radius: 2px;
+  animation: load-progress 2.8s ease forwards;
+  box-shadow: 0 0 10px var(--gold-light);
+}
+@keyframes load-progress { from { width: 0; } to { width: 100%; } }
+
+/* ---- MUSIC TOGGLE ---- */
+#music-btn {
+  position: fixed;
+  top: 24px; right: 24px;
+  z-index: 9000;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(12px);
+  color: var(--gold-light);
+  font-size: 1.2rem;
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  cursor: none;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 20px rgba(201,168,76,0.15);
+}
+#music-btn:hover {
+  background: rgba(201,168,76,0.1);
+  box-shadow: 0 0 30px rgba(201,168,76,0.4);
+  transform: scale(1.1);
+}
+#music-btn.playing { animation: music-pulse 2s ease-in-out infinite; }
+@keyframes music-pulse {
+  0%,100% { box-shadow: 0 0 20px rgba(201,168,76,0.2); }
+  50% { box-shadow: 0 0 40px rgba(201,168,76,0.6), 0 0 60px rgba(244,184,200,0.3); }
+}
+
+/* ---- NAV DOTS ---- */
+#page-nav {
+  position: fixed;
+  left: 24px; top: 50%;
+  transform: translateY(-50%);
+  z-index: 9000;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.nav-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(201,168,76,0.3);
+  border: 1px solid rgba(201,168,76,0.5);
+  cursor: none;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: block;
+}
+.nav-dot:hover, .nav-dot.active {
+  background: var(--gold-light);
+  box-shadow: 0 0 15px var(--gold-light);
+  transform: scale(1.5);
+}
+
+/* ---- PETALS CANVAS ---- */
+#petals-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* ---- GLASS CARD ---- */
+.glass-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+/* ---- GOLD TEXT ---- */
+.gold-text {
+  background: linear-gradient(135deg, var(--gold), var(--gold-light), var(--gold-glow), var(--gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 200%;
+  animation: shimmer 4s ease infinite;
+}
+@keyframes shimmer {
+  0%,100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* ---- SECTION TRANSITIONS ---- */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+.fade-in-up.visible { opacity: 1; transform: translateY(0); }
+
+/* ---- SCROLLBAR ---- */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--black); }
+::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 4px; }
+
+/* ---- PAGE TRANSITION OVERLAY ---- */
+#page-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--black);
+  z-index: 99980;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+#page-overlay.active { opacity: 1; pointer-events: all; }
+
+/* ---- STARS LAYER ---- */
+.stars-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+.star {
+  position: absolute;
+  width: 2px; height: 2px;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle var(--dur, 3s) ease-in-out infinite var(--delay, 0s);
+}
+@keyframes twinkle {
+  0%,100% { opacity: 0.1; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.5); }
+}
+
+/* ---- BLOB (shared background blobs) ---- */
+.blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ---- SHARED ARROW (enter-btn / continue-btn) ---- */
+.arrow {
+  width: 20px; height: 1px;
+  background: currentColor;
+  position: relative;
+  display: inline-block;
+  transition: width 0.3s ease;
+  flex-shrink: 0;
+}
+.arrow::after {
+  content: '';
+  position: absolute;
+  right: 0; top: -3px;
+  width: 7px; height: 7px;
+  border-right: 1px solid currentColor;
+  border-top: 1px solid currentColor;
+  transform: rotate(45deg);
+}
+
+/* ---- SECTION TITLE (shared) ---- */
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem,4vw,3rem);
+  font-weight: 300;
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+/* ---- PAGE NAV BUTTON ---- */
+.page-nav-row a{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 700;
+
+  color: var(--gold-light);
+  text-decoration: none;
+
+  padding: 14px 28px;
+  border-radius: 40px;
+
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(201,168,76,0.25);
+
+  backdrop-filter: blur(12px);
+
+  box-shadow:
+    0 0 20px rgba(201,168,76,0.15),
+    inset 0 0 12px rgba(255,255,255,0.03);
+
+  transition: all 0.35s ease;
+}
+
+.page-nav-row a:hover{
+  transform: translateY(-3px) scale(1.03);
+
+  background: rgba(201,168,76,0.08);
+
+  box-shadow:
+    0 0 30px rgba(201,168,76,0.35),
+    0 0 60px rgba(244,184,200,0.15);
+
+  letter-spacing: 1px;
+}
+
+/* ---- FADE-DROP KEYFRAME (shared hero animations) ---- */
+@keyframes fade-drop {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- UTILITY ---- */
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }

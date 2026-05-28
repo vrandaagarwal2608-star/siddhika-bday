@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Memories ✨ Bhabhi's Birthday</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* ============================================
+       PAGE 2 — MEMORIES GALLERY
+       Polaroid Cards + Dreamy Dark Aesthetic
+       ============================================ */
+
+    body { overflow-x: hidden; min-height: 100vh; }
+
+    /* Fairy lights background */
+    #gallery-bg {
+      position: fixed; inset: 0; z-index: 0;
+      background: radial-gradient(ellipse 100% 80% at 50% 0%, #0e1e3f 0%, #070d1a 60%, #030508 100%);
+    }
+
+    /* Blurred glowing blobs */
+    .blob {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .blob-1 { width:500px;height:400px;top:-100px;left:-100px;background:rgba(201,168,76,0.06); }
+    .blob-2 { width:400px;height:400px;bottom:-80px;right:-80px;background:rgba(244,184,200,0.08); }
+    .blob-3 { width:300px;height:300px;top:40%;left:40%;background:rgba(14,30,63,0.4); }
+
+    /* Fairy lights string decoration */
+    .fairy-lights {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: 60px; z-index: 6; pointer-events: none;
+    }
+    .fairy-lights svg { width: 100%; height: 100%; }
+
+    /* ---- PAGE HEADER ---- */
+    .gallery-header {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 80px 20px 40px;
+    }
+    .gallery-header .eyebrow {
+      font-family: var(--font-body);
+      font-weight: 200;
+      font-size: 0.75rem;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--pink-soft);
+      margin-bottom: 12px;
+    }
+    .gallery-header h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 300;
+      line-height: 1.1;
+    }
+    .gallery-header p {
+      font-family: var(--font-script);
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      color: rgba(248,240,232,0.6);
+      margin-top: 12px;
+    }
+
+    /* ---- TIMELINE BAR ---- */
+    .timeline {
+      position: relative; z-index: 10;
+      width: 2px;
+      background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+      margin: 0 auto;
+      animation: timeline-grow 1.5s ease forwards;
+      transform-origin: top;
+    }
+    @keyframes timeline-grow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+
+    /* ---- GALLERY GRID ---- */
+    .gallery-grid {
+      position: relative; z-index: 10;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 30px 80px;
+    }
+
+    /* ---- POLAROID CARD ---- */
+    .polaroid {
+      position: relative;
+      background: #f8f0e8;
+      border-radius: 3px;
+      padding: 14px 14px 44px;
+      box-shadow:
+        0 4px 20px rgba(0,0,0,0.5),
+        0 20px 60px rgba(0,0,0,0.3),
+        inset 0 1px 0 rgba(255,255,255,0.9);
+      cursor: none;
+      transition: transform 0.4s cubic-bezier(0.23,1,0.32,1), box-shadow 0.4s ease;
+      animation: polaroid-float var(--float-dur, 5s) ease-in-out infinite var(--float-delay, 0s);
+    }
+
+    /* Randomized tilts via CSS custom properties */
+    .polaroid:nth-child(1)  { --tilt: -4deg; }
+    .polaroid:nth-child(2)  { --tilt: 3deg; }
+    .polaroid:nth-child(3)  { --tilt: -2deg; }
+    .polaroid:nth-child(4)  { --tilt: 5deg; }
+    .polaroid:nth-child(5)  { --tilt: -3deg; }
+    .polaroid:nth-child(6)  { --tilt: 2deg; }
+    .polaroid:nth-child(7)  { --tilt: -5deg; }
+    .polaroid:nth-child(8)  { --tilt: 4deg; }
+    .polaroid:nth-child(9)  { --tilt: -1deg; }
+    .polaroid:nth-child(10) { --tilt: 6deg; }
+    .polaroid:nth-child(11) { --tilt: -3.5deg; }
+    .polaroid:nth-child(12) { --tilt: 2.5deg; }
+
+    .polaroid { transform: rotate(var(--tilt, 0deg)); }
+
+    @keyframes polaroid-float {
+      0%,100% { transform: rotate(var(--tilt, 0deg)) translateY(0px); }
+      50% { transform: rotate(var(--tilt, 0deg)) translateY(-6px); }
+    }
+
+    .polaroid:hover {
+      transform: rotate(0deg) scale(1.08) translateY(-12px) !important;
+      box-shadow: 0 20px 80px rgba(0,0,0,0.6), 0 0 40px rgba(201,168,76,0.2);
+      z-index: 100;
+      animation: none;
+    }
+
+    /* Decorative tape corners */
+    .polaroid::before, .polaroid::after {
+      content: '';
+      position: absolute;
+      width: 32px; height: 18px;
+      background: rgba(240,208,128,0.5);
+      border-radius: 1px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    }
+    .polaroid::before { top: -9px; left: 50%; transform: translateX(-50%) rotate(-2deg); }
+    .polaroid::after { bottom: 28px; right: -9px; transform: rotate(88deg); display: none; }
+
+    /* Image placeholder */
+    .polaroid-img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background:
+        linear-gradient(135deg, rgba(14,30,63,0.9) 0%, rgba(7,13,26,0.95) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 1px;
+      overflow: hidden;
+      position: relative;
+    }
+    .polaroid-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    /* Placeholder when no image */
+    .polaroid-img:not(:has(img[src]:not([src=''])))::before {
+      content: '🌸';
+      font-size: 2.5rem;
+      opacity: 0.4;
+    }
+    .polaroid-img::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(244,184,200,0.05) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* Caption */
+    .polaroid-caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 10px;
+    }
+    .polaroid-caption span {
+      font-family: var(--font-script);
+      font-size: 0.85rem;
+      color: #4a3728;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    /* ---- LIGHTBOX MODAL ---- */
+    #lightbox {
+      position: fixed; inset: 0;
+      z-index: 99970;
+      background: rgba(3,5,8,0.95);
+      backdrop-filter: blur(20px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      padding: 20px;
+    }
+    #lightbox.open { opacity: 1; pointer-events: all; }
+
+    .lightbox-inner {
+      background: #f8f0e8;
+      padding: 20px 20px 60px;
+      border-radius: 3px;
+      max-width: 540px;
+      width: 100%;
+      box-shadow: 0 40px 120px rgba(0,0,0,0.8), 0 0 60px rgba(201,168,76,0.2);
+      transform: scale(0.8) rotate(-2deg);
+      transition: transform 0.5s cubic-bezier(0.23,1,0.32,1);
+      position: relative;
+    }
+    #lightbox.open .lightbox-inner { transform: scale(1) rotate(0deg); }
+
+    .lightbox-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: linear-gradient(135deg, rgba(14,30,63,0.9), rgba(7,13,26,0.95));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4rem;
+      border-radius: 1px;
+      overflow: hidden;
+    }
+    .lightbox-img img { width: 100%; height: 100%; object-fit: cover; }
+
+    .lightbox-caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0; height: 60px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .lightbox-caption span {
+      font-family: var(--font-script);
+      font-size: 1.1rem;
+      color: #4a3728;
+    }
+
+    #lightbox-close {
+      position: absolute;
+      top: -20px; right: -20px;
+      width: 40px; height: 40px;
+      background: var(--gold);
+      border: none;
+      border-radius: 50%;
+      color: var(--black);
+      font-size: 1.1rem;
+      cursor: none;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    #lightbox-close:hover { transform: scale(1.15) rotate(90deg); }
+
+    /* ---- NAV ROW ---- */
+    .page-nav-row {
+      position: relative; z-index: 10;
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      padding: 20px;
+      border-top: 1px solid rgba(201,168,76,0.1);
+      margin-top: 20px;
+    }
+    .page-nav-row a {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(201,168,76,0.6);
+      text-decoration: none;
+      transition: color 0.3s;
+      cursor: none;
+    }
+    .page-nav-row a:hover { color: var(--gold-light); }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 600px) {
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="page-overlay"></div>
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+  <div class="stars-layer"></div>
+  <canvas id="petals-canvas"></canvas>
+  
+
+  <nav id="page-nav" aria-label="Page navigation">
+    <a class="nav-dot" href="index.html" onclick="navigateTo('index.html');return false;"></a>
+    <a class="nav-dot active" href="gallery.html" onclick="navigateTo('gallery.html');return false;"></a>
+    <a class="nav-dot" href="wishes.html" onclick="navigateTo('wishes.html');return false;"></a>
+    <a class="nav-dot" href="surprise.html" onclick="navigateTo('surprise.html');return false;"></a>
+  </nav>
+
+  <!-- Background -->
+  <div id="gallery-bg"></div>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+
+  <!-- Fairy Lights -->
+  <div class="fairy-lights">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+      <path d="M0,20 Q180,50 360,20 Q540,-10 720,20 Q900,50 1080,20 Q1260,-10 1440,20" fill="none" stroke="rgba(201,168,76,0.25)" stroke-width="1"/>
+      <!-- Light bulbs along string -->
+      <circle cx="90" cy="35" r="4" fill="#f0d080" opacity="0.8"><animate attributeName="opacity" values="0.5;1;0.5" dur="2.3s" repeatCount="indefinite"/></circle>
+      <circle cx="270" cy="15" r="4" fill="#f4b8c8" opacity="0.8"><animate attributeName="opacity" values="0.8;0.3;0.8" dur="1.8s" repeatCount="indefinite"/></circle>
+      <circle cx="450" cy="35" r="4" fill="#f0d080" opacity="0.7"><animate attributeName="opacity" values="0.4;1;0.4" dur="2.7s" repeatCount="indefinite"/></circle>
+      <circle cx="630" cy="12" r="4" fill="#f4b8c8" opacity="0.8"><animate attributeName="opacity" values="0.7;0.2;0.7" dur="1.5s" repeatCount="indefinite"/></circle>
+      <circle cx="810" cy="38" r="4" fill="#f0d080" opacity="0.7"><animate attributeName="opacity" values="0.5;1;0.5" dur="3s" repeatCount="indefinite"/></circle>
+      <circle cx="990" cy="10" r="4" fill="#f4b8c8" opacity="0.8"><animate attributeName="opacity" values="0.9;0.3;0.9" dur="2.1s" repeatCount="indefinite"/></circle>
+      <circle cx="1170" cy="36" r="4" fill="#f0d080" opacity="0.7"><animate attributeName="opacity" values="0.4;0.9;0.4" dur="2.5s" repeatCount="indefinite"/></circle>
+      <circle cx="1350" cy="14" r="4" fill="#f4b8c8" opacity="0.8"><animate attributeName="opacity" values="0.6;1;0.6" dur="1.9s" repeatCount="indefinite"/></circle>
+    </svg>
+  </div>
+
+  <!-- Gallery Header -->
+  <header class="gallery-header fade-in-up">
+    <p class="eyebrow">Chapter Two</p>
+    <h1><span class="gold-text">Our Beautiful</span> Memories</h1>
+    <p>Every picture holds a piece of forever</p>
+  </header>
+
+  <!-- Polaroid Grid -->
+  <!-- ===========================================================
+       TO ADD IMAGES: replace src="" in each <img> tag below
+       with your actual image URL or file path
+       =========================================================== -->
+  <main class="gallery-grid">
+
+    <div class="polaroid" style="--float-dur:5.2s;--float-delay:0s;" onclick="openLightbox(this)">
+      <div class="polaroid-img"><img src="images/image1.png" alt="Memory 1"/></div>
+      <div class="polaroid-caption"><span>You are the warmth that keeps this family together</span></div>
+    </div>
+
+    <div class="polaroid" style="--float-dur:4.8s;--float-delay:-1s;" onclick="openLightbox(this)">
+      <div class="polaroid-img"><img src="images/image2.png" alt="Memory 2"/></div>
+      <div class="polaroid-caption"><span>The Sunshine of our family</span></div>
+    </div>
+
+    <div class="polaroid" style="--float-dur:5.5s;--float-delay:-2s;" onclick="openLightbox(this)">
+      <div class="polaroid-img"><img src="images/image3.png" alt="Memory 3"/></div>
+      <div class="polaroid-caption"><span>Your smile lights up every room.</span></div>
+    </div>
+
+    <div class="polaroid" style="--float-dur:4.5s;--float-delay:-0.5s;" onclick="openLightbox(this)">
+      <div class="polaroid-img"><img src="images/image4.png" alt="Memory 4"/></div>
+      <div class="polaroid-caption"><span>You make life more beautiful.</span></div>
+    </div>
+
+    <div class="polaroid" style="--float-dur:6s;--float-delay:-3s;" onclick="openLightbox(this)">
+      <div class="polaroid-img"><img src="images/image5.png" alt="Memory 5"/></div>
+      <div class="polaroid-caption"><span>You carry elegance in every little thing you do.</span></div>
+    </div>
+
+    <div class="polaroid" style="--float-dur:5s;--float-delay:-1.5s;" onclick="openLightbox(this)">
+      <div class="polaroid-img"><img src="images/image6.png" alt="Memory 6"/></div>
+      <div class="polaroid-caption"><span>Grateful having you in our lives</span></div>
+    </div>
+
+    <div class="polaroid" style="--float-dur:4.7s;--float-delay:-2.5s;" onclick="openLightbox(this)">
+      <div class="polaroid-img"><img src="images/image7.png" alt="Memory 7"/></div>
+      <div class="polaroid-caption"><span>Forever graceful</span></div>
+    </div>
+
+    <div class="polaroid" style="--float-dur:5.8s;--float-delay:0s;" onclick="openLightbox(this)">
+      <div class="polaroid-img"><img src="images/image8.png" alt="Memory 8"/></div>
+      <div class="polaroid-caption"><span>Beautiful inside and out</span></div>
+    </div>
+
+    <div class="polaroid" style="--float-dur:5.1s;--float-delay:-1s;" onclick="openLightbox(this)">
+      <div class="polaroid-img"><img src="images/image9.png" alt="Memory 9"/></div>
+      <div class="polaroid-caption"><span>A heart full of magic</span></div>
+    </div>
+
+    <div class="polaroid" style="--float-dur:4.9s;--float-delay:-3.5s;" onclick="openLightbox(this)">
+      <div class="polaroid-img"><img src="images/image10.png" alt="Memory 10"/></div>
+      <div class="polaroid-caption"><span>Pure elegance</span></div>
+    </div>
+
+    <div class="polaroid" style="--float-dur:5.4s;--float-delay:-0.8s;" onclick="openLightbox(this)">
+      <div class="polaroid-img"><img src="images/image11.png" alt="Memory 11"/></div>
+      <div class="polaroid-caption"><span>A Beautiful Chapter in Our Lives</span></div>
+    </div>
+
+    <div class="polaroid" style="--float-dur:4.6s;--float-delay:-2s;" onclick="openLightbox(this)">
+      <div class="polaroid-img"><img src="images/image12.png" alt="Memory 12"/></div>
+      <div class="polaroid-caption"><span>The world becomes softer around you.</span></div>
+    </div>
+
+  </main>
+
+  <!-- Lightbox Modal -->
+  <div id="lightbox" role="dialog" aria-modal="true" aria-label="Photo preview">
+    <div class="lightbox-inner">
+      <button id="lightbox-close" onclick="closeLightbox()" aria-label="Close">✕</button>
+      <div class="lightbox-img" id="lightbox-img-wrap"></div>
+      <div class="lightbox-caption"><span id="lightbox-caption-text"></span></div>
+    </div>
+  </div>
+
+  <!-- Page Navigation -->
+  <nav class="page-nav-row">
+    <a href="wishes.html" onclick="navigateTo('wishes.html');return false;">Wishes →</a>
+  </nav>
+
+  <script src="script.js"></script>
+  <script>
+    /* Gallery-specific JS */
+    function openLightbox(polaroid) {
+      const img = polaroid.querySelector('img');
+      const caption = polaroid.querySelector('.polaroid-caption span');
+      const lb = document.getElementById('lightbox');
+      const imgWrap = document.getElementById('lightbox-img-wrap');
+      const captionEl = document.getElementById('lightbox-caption-text');
+
+      imgWrap.innerHTML = img.src
+        ? `<img src="${img.src}" alt="${img.alt}"/>`
+        : '🌸';
+      captionEl.textContent = caption.textContent;
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('lightbox').addEventListener('click', function(e) {
+      if (e.target === this) closeLightbox();
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+  </script>
+</body>
+</html>

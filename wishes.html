@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Family Wishes — Birthday</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="wishes.css" />
+</head>
+<body>
+
+  <!-- Custom Cursor -->
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- Page Overlay for transitions -->
+  <div id="page-overlay"></div>
+
+  <!-- Stars Layer -->
+  <div class="stars-layer"></div>
+
+  <!-- Petals Canvas -->
+  <canvas id="petals-canvas"></canvas>
+
+  <!-- Nav Dots -->
+  <nav id="page-nav" aria-label="Page navigation">
+    <a href="index.html" class="nav-dot" title="Home" onclick="navigateTo('index.html'); return false;"></a>
+    <a href="gallery.html" class="nav-dot" title="Memories" onclick="navigateTo('gallery.html'); return false;"></a>
+    <a href="wishes.html" class="nav-dot active" title="Wishes"></a>
+    <a href="surprise.html" class="nav-dot" title="Surprise" onclick="navigateTo('surprise.html'); return false;"></a>
+  </nav>
+
+  <!-- Background ambient blobs -->
+  <div class="blob wishes-blob-1"></div>
+  <div class="blob wishes-blob-2"></div>
+  <div class="blob wishes-blob-3"></div>
+
+  <!-- Canvas for fireflies + background particles -->
+  <canvas id="wishes-bg-canvas"></canvas>
+
+  <!-- Animated cherry blossom branches SVG -->
+  <div class="branch-left" aria-hidden="true">
+    <svg viewBox="0 0 200 600" xmlns="http://www.w3.org/2000/svg" width="200" height="600">
+      <path d="M180,600 Q140,450 160,350 Q180,250 120,150 Q80,70 100,0" stroke="rgba(201,168,76,0.18)" stroke-width="3" fill="none" class="branch-path"/>
+      <path d="M160,350 Q100,320 60,280" stroke="rgba(201,168,76,0.12)" stroke-width="2" fill="none"/>
+      <path d="M140,430 Q90,410 50,380" stroke="rgba(201,168,76,0.10)" stroke-width="2" fill="none"/>
+      <path d="M120,150 Q70,130 30,100" stroke="rgba(201,168,76,0.12)" stroke-width="2" fill="none"/>
+      <circle cx="60" cy="280" r="6" fill="rgba(244,184,200,0.5)" class="blossom-pulse"/>
+      <circle cx="50" cy="380" r="5" fill="rgba(255,214,224,0.5)" class="blossom-pulse" style="animation-delay:0.5s"/>
+      <circle cx="30" cy="100" r="7" fill="rgba(244,184,200,0.4)" class="blossom-pulse" style="animation-delay:1s"/>
+      <circle cx="100" cy="0" r="5" fill="rgba(255,214,224,0.45)" class="blossom-pulse" style="animation-delay:0.3s"/>
+    </svg>
+  </div>
+  <div class="branch-right" aria-hidden="true">
+    <svg viewBox="0 0 200 600" xmlns="http://www.w3.org/2000/svg" width="200" height="600">
+      <path d="M20,600 Q60,450 40,350 Q20,250 80,150 Q120,70 100,0" stroke="rgba(201,168,76,0.18)" stroke-width="3" fill="none" class="branch-path"/>
+      <path d="M40,350 Q100,320 140,280" stroke="rgba(201,168,76,0.12)" stroke-width="2" fill="none"/>
+      <path d="M60,430 Q110,410 150,380" stroke="rgba(201,168,76,0.10)" stroke-width="2" fill="none"/>
+      <path d="M80,150 Q130,130 170,100" stroke="rgba(201,168,76,0.12)" stroke-width="2" fill="none"/>
+      <circle cx="140" cy="280" r="6" fill="rgba(244,184,200,0.5)" class="blossom-pulse"/>
+      <circle cx="150" cy="380" r="5" fill="rgba(255,214,224,0.5)" class="blossom-pulse" style="animation-delay:0.7s"/>
+      <circle cx="170" cy="100" r="7" fill="rgba(244,184,200,0.4)" class="blossom-pulse" style="animation-delay:1.2s"/>
+    </svg>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="wishes-main">
+
+    <!-- Hero Title -->
+    <header class="wishes-hero fade-in-up">
+      <p class="wishes-eyebrow">a message from those who love you most</p>
+      <h1 class="wishes-title gold-text">Family Wishes</h1>
+      <p class="wishes-subtitle">Turn the pages and feel the love</p>
+      <div class="wishes-divider">
+        <span class="divider-line"></span>
+        <span class="divider-petal">🌸</span>
+        <span class="divider-line"></span>
+      </div>
+    </header>
+
+    <!-- FLIPBOOK SECTION -->
+    <section class="flipbook-section" aria-label="Family Wishes Flipbook">
+
+      <!-- Glassmorphism side decorations -->
+      <div class="glass-deco glass-deco-left">
+        <div class="glass-deco-inner">
+          <span class="deco-char">✦</span>
+          <span class="deco-char" style="animation-delay:.4s">🌸</span>
+          <span class="deco-char" style="animation-delay:.8s">✦</span>
+          <span class="deco-char" style="animation-delay:1.2s">🌸</span>
+        </div>
+      </div>
+      <div class="glass-deco glass-deco-right">
+        <div class="glass-deco-inner">
+          <span class="deco-char" style="animation-delay:.2s">✦</span>
+          <span class="deco-char" style="animation-delay:.6s">🌸</span>
+          <span class="deco-char" style="animation-delay:1s">✦</span>
+          <span class="deco-char" style="animation-delay:1.4s">🌸</span>
+        </div>
+      </div>
+
+      <!-- ============================================
+           FLIPBOOK
+           Structure (8 leaves total):
+             Leaf 0  — page-cover     : front=Cover (dark), back=lined paper
+             Leaf 1  — page-member-1  : front=Member 1 wish, back=lined paper
+             Leaf 2  — page-member-2  : front=Member 2 wish, back=lined paper
+             Leaf 3  — page-member-3  : front=Member 3 wish, back=lined paper
+             Leaf 4  — page-member-4  : front=Member 4 wish, back=lined paper
+             Leaf 5  — page-member-5  : front=Member 5 wish, back=lined paper
+             Leaf 6  — page-member-6  : front=Member 6 wish, back=lined paper
+             Leaf 7  — page-back-cover: front=Closing quote (dark), back=outer dark
+           ============================================ -->
+      <div class="flipbook-wrapper">
+        <div class="flipbook-shadow"></div>
+        <div class="flipbook" id="flipbook" role="region" aria-label="Family wishes flipbook">
+
+          <!-- ═══════════════════════════════════════
+               LEAF 0 — FRONT COVER
+               Front face : decorative dark cover
+               Back face  : lined paper (seen after flipping)
+               ═══════════════════════════════════════ -->
+          <div class="page page-cover" id="page-cover">
+
+            <!-- Front: Cover -->
+            <div class="page-face page-front cover-front">
+              <div class="cover-inner">
+                <div class="cover-ornament top-left">❦</div>
+                <div class="cover-ornament top-right">❦</div>
+                <div class="cover-blossom-ring">🌸</div>
+                <h2 class="cover-title">With Love</h2>
+                <p class="cover-sub">from your family</p>
+                <div class="cover-date">A Special Birthday</div>
+                <div class="cover-ornament bottom-left">❦</div>
+                <div class="cover-ornament bottom-right">❦</div>
+                <div class="golden-corner gc-tl"></div>
+                <div class="golden-corner gc-tr"></div>
+                <div class="golden-corner gc-bl"></div>
+                <div class="golden-corner gc-br"></div>
+              </div>
+            </div>
+
+            <!-- Back: lined paper -->
+            <div class="page-face page-back lined-back">
+              <div class="lined-paper-inner">
+                <div class="lined-paper-margin"></div>
+              </div>
+            </div>
+
+          </div><!-- /LEAF 0 -->
+
+
+          <!-- ═══════════════════════════════════════
+               LEAF 1 — MEMBER 1
+               ═══════════════════════════════════════
+               HOW TO ADD A PHOTO:
+                 Replace  src="images/member1.jpg"
+                 with the actual path to the photo.
+                 If you have no photo, remove the <img>
+                 tag entirely; the 🌹 emoji shows instead.
+               ═══════════════════════════════════════ -->
+          <div class="page page-member" id="page-member-1">
+
+            <!-- Front: Member 1 wish (RIGHT side when book is open) -->
+            <div class="page-face page-front">
+              <div class="page-content" data-member="1">
+                <div class="page-sparkles" id="sparkle-1"></div>
+
+                <div class="member-image-wrap">
+                  <div class="member-image-ring">
+                    <!-- ↓↓↓ ADD MEMBER 1 PHOTO HERE ↓↓↓ -->
+                    <img src="images/image13.png" alt="Kushagra" class="member-img" />
+                    <div class="img-placeholder">🌹</div>
+                  </div>
+                  <div class="img-glow-ring"></div>
+                </div>
+
+                <h3 class="member-name">Kushagra</h3>
+                <p class="member-wish">
+                  From the moment you were born, you have been the greatest gift this life
+                  has given me. Watching you grow into the remarkable soul you are fills my
+                  heart beyond words. May this birthday bring you joy as endless as my love
+                  for you — which is to say, infinite. Happy Birthday, my darling. 🌸
+                </p>
+                <div class="page-floral" aria-hidden="true">🌹</div>
+
+                <div class="golden-corner gc-tl"></div>
+                <div class="golden-corner gc-tr"></div>
+                <div class="golden-corner gc-bl"></div>
+                <div class="golden-corner gc-br"></div>
+              </div>
+            </div>
+
+           
+
+          </div><!-- /LEAF 1 -->
+
+
+          <!-- ═══════════════════════════════════════
+               LEAF 2 — MEMBER 2
+               ═══════════════════════════════════════ -->
+          <div class="page page-member" id="page-member-2">
+
+            <div class="page-face page-front">
+              <div class="page-content" data-member="2">
+                <div class="page-sparkles" id="sparkle-2"></div>
+
+                <div class="member-image-wrap">
+                  <div class="member-image-ring">
+                    <!-- ↓↓↓ ADD MEMBER 2 PHOTO HERE ↓↓↓ -->
+                    <img src="images/member2.jpg" alt="Arjun Sharma" class="member-img" />
+                    <div class="img-placeholder">🌼</div>
+                  </div>
+                  <div class="img-glow-ring"></div>
+                </div>
+
+                <h3 class="member-name">Arjun Sharma</h3>
+                <div class="member-relation">— Father —</div>
+                <p class="member-wish">
+                  I have never been a man of many words, but today let me say this clearly:
+                  you are my proudest achievement, my greatest joy, and my dearest companion
+                  through life. May every dream you hold be realised this year and every year
+                  that follows. A birthday as beautiful as you are. 💛
+                </p>
+                <div class="page-floral" aria-hidden="true">🌼</div>
+
+                <div class="golden-corner gc-tl"></div>
+                <div class="golden-corner gc-tr"></div>
+                <div class="golden-corner gc-bl"></div>
+                <div class="golden-corner gc-br"></div>
+              </div>
+            </div>
+
+            <div class="page-face page-back lined-back">
+              <div class="lined-paper-inner">
+                <div class="lined-paper-margin"></div>
+              </div>
+            </div>
+
+          </div><!-- /LEAF 2 -->
+
+
+          <!-- ═══════════════════════════════════════
+               LEAF 3 — MEMBER 3
+               ═══════════════════════════════════════ -->
+          <div class="page page-member" id="page-member-3">
+
+            <div class="page-face page-front">
+              <div class="page-content" data-member="3">
+                <div class="page-sparkles" id="sparkle-3"></div>
+
+                <div class="member-image-wrap">
+                  <div class="member-image-ring">
+                    <!-- ↓↓↓ ADD MEMBER 3 PHOTO HERE ↓↓↓ -->
+                    <img src="images/member3.jpg" alt="Neha Sharma" class="member-img" />
+                    <div class="img-placeholder">🌺</div>
+                  </div>
+                  <div class="img-glow-ring"></div>
+                </div>
+
+                <h3 class="member-name">Neha Sharma</h3>
+                <div class="member-relation">— Sister —</div>
+                <p class="member-wish">
+                  To my partner-in-crime, my midnight confidante, my forever best friend —
+                  Happy Birthday! No one in this world knows me like you do, and no one will
+                  ever be as important to me. Today the universe is celebrating the best thing
+                  that ever happened to our family: you. ✨
+                </p>
+                <div class="page-floral" aria-hidden="true">🌺</div>
+
+                <div class="golden-corner gc-tl"></div>
+                <div class="golden-corner gc-tr"></div>
+                <div class="golden-corner gc-bl"></div>
+                <div class="golden-corner gc-br"></div>
+              </div>
+            </div>
+
+            <div class="page-face page-back lined-back">
+              <div class="lined-paper-inner">
+                <div class="lined-paper-margin"></div>
+              </div>
+            </div>
+
+          </div><!-- /LEAF 3 -->
+
+
+          <!-- ═══════════════════════════════════════
+               LEAF 4 — MEMBER 4
+               ═══════════════════════════════════════ -->
+          <div class="page page-member" id="page-member-4">
+
+            <div class="page-face page-front">
+              <div class="page-content" data-member="4">
+                <div class="page-sparkles" id="sparkle-4"></div>
+
+                <div class="member-image-wrap">
+                  <div class="member-image-ring">
+                    <!-- ↓↓↓ ADD MEMBER 4 PHOTO HERE ↓↓↓ -->
+                    <img src="images/member4.jpg" alt="Rohan Sharma" class="member-img" />
+                    <div class="img-placeholder">🌷</div>
+                  </div>
+                  <div class="img-glow-ring"></div>
+                </div>
+
+                <h3 class="member-name">Rohan Sharma</h3>
+                <div class="member-relation">— Brother —</div>
+                <p class="member-wish">
+                  I'm not always the best at saying this, so let me make it count today:
+                  you're truly one of a kind. You have always made our home brighter just by
+                  being in it. Here's to you — may this birthday bring every bit of happiness
+                  you so effortlessly give to all of us. 🎉
+                </p>
+                <div class="page-floral" aria-hidden="true">🌷</div>
+
+                <div class="golden-corner gc-tl"></div>
+                <div class="golden-corner gc-tr"></div>
+                <div class="golden-corner gc-bl"></div>
+                <div class="golden-corner gc-br"></div>
+              </div>
+            </div>
+
+            <div class="page-face page-back lined-back">
+              <div class="lined-paper-inner">
+                <div class="lined-paper-margin"></div>
+              </div>
+            </div>
+
+          </div><!-- /LEAF 4 -->
+
+
+          <!-- ═══════════════════════════════════════
+               LEAF 5 — MEMBER 5
+               ═══════════════════════════════════════ -->
+          <div class="page page-member" id="page-member-5">
+
+            <div class="page-face page-front">
+              <div class="page-content" data-member="5">
+                <div class="page-sparkles" id="sparkle-5"></div>
+
+                <div class="member-image-wrap">
+                  <div class="member-image-ring">
+                    <!-- ↓↓↓ ADD MEMBER 5 PHOTO HERE ↓↓↓ -->
+                    <img src="images/member5.jpg" alt="Kamla Devi" class="member-img" />
+                    <div class="img-placeholder">🌸</div>
+                  </div>
+                  <div class="img-glow-ring"></div>
+                </div>
+
+                <h3 class="member-name">Kamla Devi</h3>
+                <div class="member-relation">— Grandmother —</div>
+                <p class="member-wish">
+                  My dear child, I have seen many seasons come and go, but every year your
+                  birthday feels like the first bloom of spring. You carry the warmth of this
+                  family in everything you do. My blessings, my prayers, and all the love of
+                  my old heart are yours today and always. 🙏
+                </p>
+                <div class="page-floral" aria-hidden="true">🌸</div>
+
+                <div class="golden-corner gc-tl"></div>
+                <div class="golden-corner gc-tr"></div>
+                <div class="golden-corner gc-bl"></div>
+                <div class="golden-corner gc-br"></div>
+              </div>
+            </div>
+
+            <div class="page-face page-back lined-back">
+              <div class="lined-paper-inner">
+                <div class="lined-paper-margin"></div>
+              </div>
+            </div>
+
+          </div><!-- /LEAF 5 -->
+
+
+          <!-- ═══════════════════════════════════════
+               LEAF 6 — MEMBER 6
+               ═══════════════════════════════════════ -->
+          <div class="page page-member" id="page-member-6">
+
+            <div class="page-face page-front">
+              <div class="page-content" data-member="6">
+                <div class="page-sparkles" id="sparkle-6"></div>
+
+                <div class="member-image-wrap">
+                  <div class="member-image-ring">
+                    <!-- ↓↓↓ ADD MEMBER 6 PHOTO HERE ↓↓↓ -->
+                    <img src="images/member6.jpg" alt="Vikram Sharma" class="member-img" />
+                    <div class="img-placeholder">🌻</div>
+                  </div>
+                  <div class="img-glow-ring"></div>
+                </div>
+
+                <h3 class="member-name">Vikram Sharma</h3>
+                <div class="member-relation">— Uncle —</div>
+                <p class="member-wish">
+                  You have always been the light of every gathering — the one whose laughter
+                  we wait for, whose stories we cherish. It is impossible to imagine our family
+                  without your energy and kindness. On this special day, I wish you a life as
+                  vivid and joyful as you make ours. 🌟
+                </p>
+                <div class="page-floral" aria-hidden="true">🌻</div>
+
+                <div class="golden-corner gc-tl"></div>
+                <div class="golden-corner gc-tr"></div>
+                <div class="golden-corner gc-bl"></div>
+                <div class="golden-corner gc-br"></div>
+              </div>
+            </div>
+
+            <div class="page-face page-back lined-back">
+              <div class="lined-paper-inner">
+                <div class="lined-paper-margin"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- /LEAF 6 -->
+          <div class="page page-member" id="page-member-7">
+
+            <div class="page-face page-front">
+              <div class="page-content" data-member="7">
+                <div class="page-sparkles" id="sparkle-7"></div>
+
+                <div class="member-image-wrap">
+                  <div class="member-image-ring">
+                    <!-- ↓↓↓ ADD MEMBER 6 PHOTO HERE ↓↓↓ -->
+                    <img src="images/member6.jpg" alt="Vikram Sharma" class="member-img" />
+                    <div class="img-placeholder">🌻</div>
+                  </div>
+                  <div class="img-glow-ring"></div>
+                </div>
+
+                <h3 class="member-name">Vikram Sharma</h3>
+                <div class="member-relation">— Uncle —</div>
+                <p class="member-wish">
+                  You have always been the light of every gathering — the one whose laughter
+                  we wait for, whose stories we cherish. It is impossible to imagine our family
+                  without your energy and kindness. On this special day, I wish you a life as
+                  vivid and joyful as you make ours. 🌟
+                </p>
+                <div class="page-floral" aria-hidden="true">🌻</div>
+
+                <div class="golden-corner gc-tl"></div>
+                <div class="golden-corner gc-tr"></div>
+                <div class="golden-corner gc-bl"></div>
+                <div class="golden-corner gc-br"></div>
+              </div>
+            </div>
+
+            <div class="page-face page-back lined-back">
+              <div class="lined-paper-inner">
+                <div class="lined-paper-margin"></div>
+              </div>
+             </div>
+          </div>
+
+          <!-- ═══════════════════════════════════════
+               LEAF 7 — BACK COVER
+               Front face : closing quote (dark, seen last)
+               Back face  : plain dark outer back cover
+               ═══════════════════════════════════════ -->
+          <div class="page page-back-cover" id="page-back-cover">
+
+            <div class="page-face page-front back-cover-face">
+              <div class="cover-inner back-cover-inner">
+                <div class="cover-ornament top-left">❦</div>
+                <div class="cover-ornament top-right">❦</div>
+                <div class="back-cover-quote">
+                  "Love is not what you say. It is what you do, what you feel,
+                  and how you make someone's whole world glow."
+                </div>
+                <div class="back-cover-petal">🌸</div>
+                <div class="cover-ornament bottom-left">❦</div>
+                <div class="cover-ornament bottom-right">❦</div>
+                <div class="golden-corner gc-tl"></div>
+                <div class="golden-corner gc-tr"></div>
+                <div class="golden-corner gc-bl"></div>
+                <div class="golden-corner gc-br"></div>
+              </div>
+            </div>
+
+            <!-- Outer back of the book -->
+            <div class="page-face page-back back-cover-outer"></div>
+
+          </div><!-- /LEAF 7 -->
+
+        </div><!-- /#flipbook -->
+
+        <!-- Flipbook Controls -->
+        <div class="flipbook-controls" aria-label="Flipbook navigation">
+          <button class="flip-btn" id="flip-prev" aria-label="Previous page" title="Previous page">
+            <svg width="20" height="20" viewBox="0 0 20 20"><path d="M13 4L7 10l6 6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+          </button>
+          <div class="flip-page-indicator">
+            <span id="current-page-num">Cover</span>
+            <span class="flip-sep">/</span>
+            <span class="flip-total">9</span>
+          </div>
+          <button class="flip-btn" id="flip-next" aria-label="Next page" title="Next page">
+            <svg width="20" height="20" viewBox="0 0 20 20"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+
+    
+      </div><!-- /.flipbook-wrapper -->
+
+      <!-- Swipe hint -->
+      <p class="swipe-hint" aria-hidden="true">← Swipe or click arrows to turn pages →</p>
+
+    </section>
+
+    <!-- Continue Button -->
+    <div class="wishes-continue fade-in-up">
+      <button class="continue-btn" onclick="navigateTo('index.html')">
+        <span class="continue-text">Return</span>
+        <span class="continue-sparkle">✨</span>
+      </button>
+    </div>
+
+  </main>
+
+  <!-- Scripts -->
+  <script src="script.js"></script>
+  <script src="wishes.js"></script>
+</body>
+</html>
