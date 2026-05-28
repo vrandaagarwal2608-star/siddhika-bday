@@ -278,7 +278,7 @@ You are my favorite human in the whole world 🌸)`,
     const direction = targetIndex > state.currentIndex ? 'forward' : 'backward';
 
     /* Play page-turn sound */
-    if (state.soundEnabled) playPageSound();
+    
 
     /* Flip or unflip the appropriate leaves */
     if (direction === 'forward') {
